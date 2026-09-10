@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="我的熱量">
+<meta name="theme-color" content="#F6F1E4">
+<title>我的每日熱量 · 傅姐教你自己算</title>
+<style>
+  :root{
+    --gold:#C69A4B;        /* 金 */
+    --gold-deep:#A67C2E;
+    --cream:#F6F1E4;       /* 米 */
+    --cream-card:#FCFAF3;
+    --green:#8CA97A;       /* 淺綠 */
+    --green-deep:#5F7A50;
+    --ink:#3D3A32;
+    --ink-soft:#726D5F;
+    --line:#E8DFC9;
+    --shadow:0 6px 24px rgba(120,100,50,.10);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .wrap{max-width:480px;margin:0 auto;padding:0 20px 48px;}
+
+  /* header */
+  header{padding:28px 0 18px;text-align:center;}
+  .badge{
+    display:inline-block;font-size:13px;letter-spacing:.12em;
+    color:var(--gold-deep);border:1px solid var(--line);
+    background:var(--cream-card);border-radius:999px;padding:5px 16px;margin-bottom:14px;
+  }
+  h1{font-size:25px;margin:0 0 6px;font-weight:700;letter-spacing:.01em;}
+  .sub{color:var(--ink-soft);font-size:14.5px;margin:0;}
+
+  /* card */
+  .card{
+    background:var(--cream-card);border:1px solid var(--line);
+    border-radius:20px;padding:22px 20px;margin-top:18px;box-shadow:var(--shadow);
+  }
+  .card h2{font-size:16px;margin:0 0 4px;color:var(--gold-deep);font-weight:700;}
+  .card .hint{font-size:13px;color:var(--ink-soft);margin:0 0 16px;}
+
+  label{display:block;font-size:14.5px;font-weight:600;margin:16px 0 7px;}
+  label:first-of-type{margin-top:4px;}
+  .row{display:flex;gap:12px;}
+  .row>div{flex:1;}
+
+  input[type=number]{
+    width:100%;font-size:17px;padding:13px 14px;border:1.5px solid var(--line);
+    border-radius:13px;background:#fff;color:var(--ink);font-family:inherit;
+  }
+  input[type=number]:focus{outline:none;border-color:var(--gold);}
+
+  .seg{display:flex;gap:8px;}
+  .seg button{
+    flex:1;padding:11px 6px;border:1.5px solid var(--line);background:#fff;
+    border-radius:13px;font-size:15px;color:var(--ink);font-family:inherit;cursor:pointer;font-weight:600;
+  }
+  .seg button.on{background:var(--gold);border-color:var(--gold);color:#fff;}
+
+  .act-list{display:flex;flex-direction:column;gap:9px;}
+  .act-list button{
+    text-align:left;padding:13px 15px;border:1.5px solid var(--line);background:#fff;
+    border-radius:13px;font-family:inherit;color:var(--ink);cursor:pointer;
+  }
+  .act-list button.on{border-color:var(--green);background:#F1F5EC;}
+  .act-list .t{font-size:15px;font-weight:600;display:block;}
+  .act-list .d{font-size:12.5px;color:var(--ink-soft);display:block;margin-top:2px;}
+
+  .go{
+    width:100%;margin-top:22px;padding:16px;border:none;border-radius:15px;
+    background:var(--gold);color:#fff;font-size:17px;font-weight:700;font-family:inherit;
+    cursor:pointer;box-shadow:0 6px 18px rgba(198,154,75,.35);
+  }
+  .go:active{transform:translateY(1px);}
+
+  /* result */
+  #result{display:none;}
+  .big-num{text-align:center;padding:6px 0 2px;}
+  .big-num .n{font-size:52px;font-weight:800;color:var(--gold-deep);line-height:1.05;}
+  .big-num .u{font-size:16px;color:var(--ink-soft);margin-left:4px;}
+  .big-num .cap{font-size:14px;color:var(--ink-soft);margin-top:2px;}
+
+  .band{
+    display:flex;justify-content:space-between;align-items:center;
+    background:#F1F5EC;border:1px solid #DCE6D2;border-radius:14px;
+    padding:15px 18px;margin-top:16px;
+  }
+  .band .lab{font-size:14px;color:var(--green-deep);font-weight:600;}
+  .band .val{font-size:20px;color:var(--green-deep);font-weight:800;}
+
+  .mini{display:flex;gap:12px;margin-top:14px;}
+  .mini>div{
+    flex:1;text-align:center;background:#fff;border:1px solid var(--line);
+    border-radius:13px;padding:13px 8px;
+  }
+  .mini .m-n{font-size:20px;font-weight:800;color:var(--ink);}
+  .mini .m-l{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+
+  .note{font-size:13.5px;color:var(--ink-soft);margin-top:16px;line-height:1.7;}
+  .note b{color:var(--ink);}
+
+  .coach{
+    background:linear-gradient(135deg,#FBF6E9,#F4EEDD);
+    border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:18px;
+  }
+  .coach .who{font-size:13px;color:var(--gold-deep);font-weight:700;margin-bottom:6px;}
+  .coach p{margin:0;font-size:14.5px;line-height:1.75;}
+
+  .again{
+    width:100%;margin-top:16px;padding:14px;border:1.5px solid var(--gold);
+    background:transparent;color:var(--gold-deep);border-radius:14px;
+    font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;
+  }
+
+  /* plate 衛教 */
+  .plate{margin-top:18px;}
+  .plate .p-row{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);}
+  .plate .p-row:last-child{border-bottom:none;}
+  .dot{width:12px;height:12px;border-radius:50%;margin-top:6px;flex-shrink:0;}
+  .plate .p-t{font-size:14.5px;font-weight:600;}
+  .plate .p-d{font-size:13px;color:var(--ink-soft);}
+
+  .disc{
+    font-size:12.5px;color:var(--ink-soft);line-height:1.7;
+    background:var(--cream-card);border:1px solid var(--line);
+    border-radius:14px;padding:15px 16px;margin-top:22px;
+  }
+  footer{text-align:center;margin-top:30px;padding-top:22px;border-top:1px solid var(--line);}
+  footer .slogan{font-size:14.5px;color:var(--ink);line-height:1.9;font-weight:600;max-width:300px;margin:0 auto 14px;}
+  footer .brand{font-size:12px;color:var(--ink-soft);letter-spacing:.08em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <span class="badge">傅姐，甲級體重管理師</span>
+    <h1>我的每日熱量</h1>
+    <p class="sub">學會自己算，是一輩子不復胖的第一步</p>
+  </header>
+
+  <!-- 輸入 -->
+  <div class="card" id="form">
+    <h2>先輸入你的基本資料</h2>
+    <p class="hint">全部在你手機上算，不會上傳，安心填。</p>
+
+    <div class="row">
+      <div>
+        <label>性別</label>
+        <div class="seg" id="sex">
+          <button data-v="f" class="on">女</button>
+          <button data-v="m">男</button>
+        </div>
+      </div>
+      <div>
+        <label>年齡</label>
+        <input type="number" id="age" inputmode="numeric" placeholder="歲">
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>身高</label>
+        <input type="number" id="height" inputmode="decimal" placeholder="公分">
+      </div>
+      <div>
+        <label>體重</label>
+        <input type="number" id="weight" inputmode="decimal" placeholder="公斤">
+      </div>
+    </div>
+
+    <label>平常的活動量</label>
+    <div class="act-list" id="act">
+      <button data-v="1.2"><span class="t">幾乎不動</span><span class="d">整天坐著、很少走動</span></button>
+      <button data-v="1.375" class="on"><span class="t">輕度活動</span><span class="d">上班族、偶爾散步</span></button>
+      <button data-v="1.55"><span class="t">中度活動</span><span class="d">每週運動 3–5 次</span></button>
+      <button data-v="1.725"><span class="t">高度活動</span><span class="d">體力工作、天天運動</span></button>
+    </div>
+
+    <button class="go" id="calc">算我的熱量</button>
+  </div>
+
+  <!-- 結果 -->
+  <div id="result">
+    <div class="card">
+      <h2>你的每日狀況</h2>
+      <p class="hint">這是「維持現在體重」需要的熱量。</p>
+
+      <div class="big-num">
+        <span class="n" id="tdee">0</span><span class="u">大卡</span>
+        <div class="cap">每天吃這麼多，體重不太會變</div>
+      </div>
+
+      <div class="band">
+        <span class="lab">想減重，建議吃</span>
+        <span class="val" id="lose">0</span>
+      </div>
+
+      <div class="mini">
+        <div><div class="m-n" id="bmr">0</div><div class="m-l">基礎代謝</div></div>
+        <div><div class="m-n" id="bmi">0</div><div class="m-l">BMI</div></div>
+        <div><div class="m-n" id="bmicat">—</div><div class="m-l">體位</div></div>
+      </div>
+
+      <p class="note">
+        <b>怎麼看這些數字？</b><br>
+        「基礎代謝」是你就算躺著不動、身體維持運作要用掉的熱量。<br>
+        「維持熱量」是加上你日常活動後的總消耗。<br>
+        想減重，就讓每天吃的比維持熱量少一點——但<b>別低於基礎代謝</b>，餓過頭反而容易復胖。
+      </p>
+
+      <div class="coach">
+        <div class="who">傅姐想跟你說</div>
+        <p id="coach-msg"></p>
+      </div>
+    </div>
+
+    <!-- 通用衛教：我的餐盤 -->
+    <div class="card">
+      <h2>吃的時候，記住這個比例</h2>
+      <p class="hint">國健署「我的餐盤」通用原則，人人適用。</p>
+      <div class="plate">
+        <div class="p-row"><span class="dot" style="background:#8CA97A"></span><span><span class="p-t">菜比水果多一點</span><span class="p-d">深色蔬菜要有，纖維幫你有飽足感</span></span></div>
+        <div class="p-row"><span class="dot" style="background:#C69A4B"></span><span><span class="p-t">飯跟蔬菜差不多</span><span class="p-d">選全穀雜糧，別只吃白飯白麵</span></span></div>
+        <div class="p-row"><span class="dot" style="background:#B4744A"></span><span><span class="p-t">豆魚蛋肉一掌心</span><span class="p-d">優質蛋白，掌心大小就夠</span></span></div>
+        <div class="p-row"><span class="dot" style="background:#7FA7C4"></span><span><span class="p-t">水要喝夠</span><span class="p-d">一天喝到體重(公斤)×30～40 毫升</span></span></div>
+        <div class="p-row"><span class="dot" style="background:#D4B15E"></span><span><span class="p-t">順序：菜 → 肉 → 飯</span><span class="p-d">先吃菜和蛋白質，血糖比較穩</span></span></div>
+      </div>
+    </div>
+
+    <button class="again" id="reset">重新算一次</button>
+  </div>
+
+  <!-- 免責 -->
+  <div class="disc">
+    本工具提供的是<b>通用的健康知識與熱量計算</b>，屬健康教育，幫助你自己了解、自己評估，不針對個人開立飲食處方，也不能取代醫療或營養診療。每個人身體狀況不同，若你有慢性疾病、懷孕、或特殊身體狀況，請先諮詢醫師或營養師。
+  </div>
+
+  <footer>
+    <div class="slogan">體重跟生活一樣，可以整理。<br>該走的脂肪，就讓它走，只留下健康。</div>
+    <div class="brand">遇見喜樂 · Fit21</div>
+  </footer>
+
+</div>
+
+<script>
+  // ---- 選擇器邏輯 ----
+  function bindSeg(id){
+    document.querySelectorAll('#'+id+' button').forEach(function(b){
+      b.addEventListener('click',function(){
+        document.querySelectorAll('#'+id+' button').forEach(function(x){x.classList.remove('on');});
+        b.classList.add('on');
+      });
+    });
+  }
+  bindSeg('sex'); bindSeg('act');
+
+  function pick(id){var el=document.querySelector('#'+id+' button.on');return el?el.dataset.v:null;}
+
+  // ---- 計算 ----
+  document.getElementById('calc').addEventListener('click',function(){
+    var sex=pick('sex');
+    var act=parseFloat(pick('act'));
+    var age=parseFloat(document.getElementById('age').value);
+    var h=parseFloat(document.getElementById('height').value);
+    var w=parseFloat(document.getElementById('weight').value);
+
+    if(!age||!h||!w||age<10||age>100||h<100||h>220||w<25||w>250){
+      alert('請確認年齡、身高、體重都有填，而且數字合理喔。');
+      return;
+    }
+
+    // Mifflin-St Jeor 公式（國際通用）
+    var bmr = 10*w + 6.25*h - 5*age + (sex==='m'?5:-161);
+    var tdee = bmr*act;
+    var loseLow = Math.max(bmr, tdee-500);   // 減重區間下緣不低於基礎代謝
+    var loseHigh = tdee-300;
+    var bmi = w/Math.pow(h/100,2);
+
+    var cat, msg;
+    if(bmi<18.5){cat='過輕';}
+    else if(bmi<24){cat='標準';}
+    else if(bmi<27){cat='過重';}
+    else{cat='肥胖';}
+
+    if(bmi<18.5){
+      msg='你目前偏瘦，重點不是少吃，而是吃對、把身體養健康。想調整體態，交給我，我們一起把節奏抓好。';
+    }else if(bmi<24){
+      msg='你的體位很漂亮，維持住就好。把每天的熱量控制在維持線附近，再搭配餐盤比例，你會愈來愈穩。';
+    }else{
+      msg='別急，也別餓過頭。每天比維持熱量少吃一點點，配合喝夠水、順序吃，脂肪會自己慢慢走。你是認真的，那就交給我，我們一起。';
+    }
+
+    document.getElementById('tdee').textContent=Math.round(tdee);
+    document.getElementById('lose').textContent=Math.round(loseLow)+'～'+Math.round(loseHigh)+' 大卡';
+    document.getElementById('bmr').textContent=Math.round(bmr);
+    document.getElementById('bmi').textContent=bmi.toFixed(1);
+    document.getElementById('bmicat').textContent=cat;
+    document.getElementById('coach-msg').textContent=msg;
+
+    document.getElementById('form').style.display='none';
+    document.getElementById('result').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  document.getElementById('reset').addEventListener('click',function(){
+    document.getElementById('result').style.display='none';
+    document.getElementById('form').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+</script>
+</body>
+</html>
