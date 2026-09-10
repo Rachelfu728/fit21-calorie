@@ -114,6 +114,15 @@
   .meal-row span:last-child{color:var(--ink-soft);text-align:right;flex-shrink:0;}
   .meal-row.total{border-top:1px solid #CADBBC;padding-top:10px;margin-top:2px;font-weight:700;}
   .meal-row.total span{color:var(--green-deep);}
+  .cmp-title{font-size:15px;font-weight:700;color:var(--gold-deep);margin:20px 0 10px;}
+  .cmp{border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .cmp-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;padding:10px 14px;font-size:13.5px;align-items:center;border-bottom:1px solid var(--line);}
+  .cmp-row:last-child{border-bottom:none;}
+  .cmp-row span:nth-child(2),.cmp-row span:nth-child(3){text-align:right;color:var(--ink-soft);min-width:48px;}
+  .cmp-head{background:var(--cream);font-weight:700;font-size:12.5px;color:var(--ink-soft);}
+  .cmp-head span{color:var(--ink-soft)!important;}
+  .cmp-row.hl{background:#F1F5EC;font-weight:700;}
+  .cmp-row.hl span{color:var(--green-deep)!important;}
 
   .mini{display:flex;gap:12px;margin-top:14px;}
   .mini>div{
@@ -286,8 +295,8 @@
         <div class="meal-title">一份奶昔 ＋ 200cc 無糖豆漿</div>
         <div class="meal-rows">
           <div class="meal-row"><span>一份奶昔</span><span>88 大卡 · 蛋白質 9 克</span></div>
-          <div class="meal-row"><span>200cc 無糖豆漿</span><span>約 70 大卡 · 蛋白質 約 7 克</span></div>
-          <div class="meal-row total"><span>一杯合計</span><span>約 158 大卡 · 蛋白質 約 16 克</span></div>
+          <div class="meal-row"><span>200cc 無糖豆漿</span><span>約 70 大卡 · 蛋白質 約 8 克</span></div>
+          <div class="meal-row total"><span>一杯合計</span><span>約 158 大卡 · 蛋白質 約 17 克</span></div>
         </div>
       </div>
 
@@ -295,6 +304,27 @@
         這樣一杯，熱量低、蛋白質夠，很適合當作忙碌時的一餐。
         對照上面你自己的熱量，就知道這一杯在你一天裡佔多少，剩下的餐怎麼分配，心裡就有底了。
         <br><span style="color:var(--ink-soft);font-size:12.5px;">（無糖豆漿數值為市售平均，不同產品略有差異，僅供概念參考。）</span>
+      </p>
+
+      <div class="cmp-title">跟常見外食比比看</div>
+      <div class="cmp">
+        <div class="cmp-row cmp-head"><span>餐點</span><span>熱量</span><span>蛋白質</span></div>
+        <div class="cmp-row hl"><span>奶昔＋200cc無糖豆漿</span><span>約158</span><span>約17克</span></div>
+        <div class="cmp-row"><span>排骨便當</span><span>約950</span><span>約30克</span></div>
+        <div class="cmp-row"><span>雞胸肉便當</span><span>約600</span><span>約35克</span></div>
+        <div class="cmp-row"><span>蔬食便當</span><span>約600</span><span>約15克</span></div>
+        <div class="cmp-row"><span>漢堡（加蛋）</span><span>約480</span><span>約20克</span></div>
+        <div class="cmp-row"><span>起司三明治</span><span>約280</span><span>約10克</span></div>
+        <div class="cmp-row"><span>蛋餅（原味）</span><span>約260</span><span>約12克</span></div>
+        <div class="cmp-row"><span>煎蘿蔔糕（一份）</span><span>約250</span><span>約8克</span></div>
+        <div class="cmp-row"><span>三角飯糰</span><span>約220</span><span>約6克</span></div>
+        <div class="cmp-row"><span>中杯拿鐵</span><span>約150</span><span>約8克</span></div>
+        <div class="cmp-row"><span>茶葉蛋（一顆）</span><span>約70</span><span>約7克</span></div>
+      </div>
+      <p class="note" style="margin-top:12px;">
+        看出來了嗎？同樣是一餐，<b>奶昔那一杯熱量最低，蛋白質卻名列前茅</b>。
+        減重不是餓肚子，是學會「用少一點的熱量，吃到夠的營養」。這就是關鍵。
+        <br><span style="color:var(--ink-soft);font-size:12.5px;">（外食熱量會因店家、份量、烹調方式而異，此為常見平均值，僅供參考。）</span>
       </p>
     </div>
 
