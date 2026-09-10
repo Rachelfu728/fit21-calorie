@@ -99,6 +99,21 @@
   }
   .band .lab{font-size:14px;color:var(--green-deep);font-weight:600;}
   .band .val{font-size:20px;color:var(--green-deep);font-weight:800;}
+  .warn{
+    background:#FBF3E3;border:1px solid #E8D5A8;border-radius:14px;
+    padding:15px 18px;margin-top:16px;font-size:14px;line-height:1.75;color:#8A6A22;
+  }
+  .warn b{color:#6E5316;}
+  .edu{font-size:14.5px;line-height:1.85;color:var(--ink);margin:0 0 13px;}
+  .edu:last-child{margin-bottom:0;}
+  .edu b{color:var(--gold-deep);}
+  .meal{background:#F1F5EC;border:1px solid #DCE6D2;border-radius:14px;padding:16px 18px;margin-bottom:14px;}
+  .meal-title{font-size:15px;font-weight:700;color:var(--green-deep);margin-bottom:12px;}
+  .meal-rows{display:flex;flex-direction:column;gap:9px;}
+  .meal-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;color:var(--ink);gap:10px;}
+  .meal-row span:last-child{color:var(--ink-soft);text-align:right;flex-shrink:0;}
+  .meal-row.total{border-top:1px solid #CADBBC;padding-top:10px;margin-top:2px;font-weight:700;}
+  .meal-row.total span{color:var(--green-deep);}
 
   .mini{display:flex;gap:12px;margin-top:14px;}
   .mini>div{
@@ -203,9 +218,13 @@
         <div class="cap">每天吃這麼多，體重不太會變</div>
       </div>
 
-      <div class="band">
+      <div class="band" id="lose-band">
         <span class="lab">想減重，建議吃</span>
         <span class="val" id="lose">0</span>
+      </div>
+
+      <div class="warn" id="lose-warn" style="display:none;">
+        你目前的每日消耗，已經很接近身體維持運作的最低需求。這種情況<b>不建議再靠少吃減重</b>，容易傷身。先從增加活動量開始，讓身體多消耗一點，會更健康、更持久。
       </div>
 
       <div class="mini">
@@ -227,6 +246,24 @@
       </div>
     </div>
 
+    <!-- 衛教：為什麼不能低於基礎代謝 -->
+    <div class="card">
+      <h2>為什麼不能吃得比基礎代謝還少？</h2>
+      <p class="hint">很多人以為吃越少瘦越快，其實剛好相反。</p>
+      <p class="edu">
+        基礎代謝，是你身體維持心跳、呼吸、體溫這些「活著的基本運作」要用掉的熱量。就算你整天躺著不動，也一定會用到。
+      </p>
+      <p class="edu">
+        <b>把身體想成一個家。</b>基礎代謝就是這個家最基本的水電瓦斯費。如果你連基本開銷都不給它，身體不會乖乖繼續運轉，它會<b>自動進入「省電模式」</b>——把代謝調低、燒掉肌肉來省能量。
+      </p>
+      <p class="edu">
+        結果就是：短期看起來瘦了，但代謝掉下來、肌肉也少了，變成<b>越來越難瘦、越來越容易胖</b>的體質。一旦恢復正常吃，反彈得特別快。這就是為什麼「猛餓」的人常常瘦一下又胖回來。
+      </p>
+      <p class="edu">
+        所以真正健康的減重，是<b>吃得比消耗少一點點</b>就好，讓身體願意慢慢動用脂肪，而不是逼它進入求生狀態。慢，才會穩；穩，才不會復胖。
+      </p>
+    </div>
+
     <!-- 通用衛教：我的餐盤 -->
     <div class="card">
       <h2>吃的時候，記住這個比例</h2>
@@ -238,6 +275,27 @@
         <div class="p-row"><span class="dot" style="background:#7FA7C4"></span><span><span class="p-t">水要喝夠</span><span class="p-d">一天喝到體重(公斤)×30～40 毫升</span></span></div>
         <div class="p-row"><span class="dot" style="background:#D4B15E"></span><span><span class="p-t">順序：菜 → 肉 → 飯</span><span class="p-d">先吃菜和蛋白質，血糖比較穩</span></span></div>
       </div>
+    </div>
+
+    <!-- 一餐熱量參考 -->
+    <div class="card">
+      <h2>一餐大概多少？給你個參考</h2>
+      <p class="hint">這是幫你「抓感覺」的參考範例，不是規定你要吃什麼。</p>
+
+      <div class="meal">
+        <div class="meal-title">一份奶昔 ＋ 200cc 無糖豆漿</div>
+        <div class="meal-rows">
+          <div class="meal-row"><span>一份奶昔</span><span>88 大卡 · 蛋白質 9 克</span></div>
+          <div class="meal-row"><span>200cc 無糖豆漿</span><span>約 70 大卡 · 蛋白質 約 7 克</span></div>
+          <div class="meal-row total"><span>一杯合計</span><span>約 158 大卡 · 蛋白質 約 16 克</span></div>
+        </div>
+      </div>
+
+      <p class="note">
+        這樣一杯，熱量低、蛋白質夠，很適合當作忙碌時的一餐。
+        對照上面你自己的熱量，就知道這一杯在你一天裡佔多少，剩下的餐怎麼分配，心裡就有底了。
+        <br><span style="color:var(--ink-soft);font-size:12.5px;">（無糖豆漿數值為市售平均，不同產品略有差異，僅供概念參考。）</span>
+      </p>
     </div>
 
     <button class="again" id="reset">重新算一次</button>
@@ -285,17 +343,36 @@
     // Mifflin-St Jeor 公式（國際通用）
     var bmr = 10*w + 6.25*h - 5*age + (sex==='m'?5:-161);
     var tdee = bmr*act;
-    var loseLow = Math.max(bmr, tdee-500);   // 減重區間下緣不低於基礎代謝
-    var loseHigh = tdee-300;
     var bmi = w/Math.pow(h/100,2);
 
-    var cat, msg;
+    // 減重區間：以「維持熱量減 300～500」為理想，但整條都不低於基礎代謝
+    var loseHigh = tdee-300;   // 較寬鬆的一端
+    var loseLow  = tdee-500;   // 較積極的一端
+    var enoughRoom = loseHigh >= bmr;  // 連最寬鬆的一端都低於基礎代謝，就代表沒有安全的減重空間
+
+    var cat;
     if(bmi<18.5){cat='過輕';}
     else if(bmi<24){cat='標準';}
     else if(bmi<27){cat='過重';}
     else{cat='肥胖';}
 
-    if(bmi<18.5){
+    // 顯示減重建議
+    if(enoughRoom){
+      // 有空間：下限拉回不低於基礎代謝
+      var safeLow = Math.max(bmr, loseLow);
+      document.getElementById('lose-band').style.display='flex';
+      document.getElementById('lose-warn').style.display='none';
+      document.getElementById('lose').textContent=Math.round(safeLow)+'～'+Math.round(loseHigh)+' 大卡';
+    }else{
+      // 沒空間：不硬給數字，改提醒增加活動
+      document.getElementById('lose-band').style.display='none';
+      document.getElementById('lose-warn').style.display='block';
+    }
+
+    var msg;
+    if(!enoughRoom){
+      msg='你目前的每日消耗不高，光靠少吃能減的空間很有限，硬餓反而會傷身、掉肌肉。這種情況，重點是先把活動量拉起來——多走路、多動，讓身體多消耗一點，再來調整飲食。這一段最需要有人陪你抓節奏，交給我，我們一起慢慢來。';
+    }else if(bmi<18.5){
       msg='你目前偏瘦，重點不是少吃，而是吃對、把身體養健康。想調整體態，交給我，我們一起把節奏抓好。';
     }else if(bmi<24){
       msg='你的體位很漂亮，維持住就好。把每天的熱量控制在維持線附近，再搭配餐盤比例，你會愈來愈穩。';
@@ -304,7 +381,6 @@
     }
 
     document.getElementById('tdee').textContent=Math.round(tdee);
-    document.getElementById('lose').textContent=Math.round(loseLow)+'～'+Math.round(loseHigh)+' 大卡';
     document.getElementById('bmr').textContent=Math.round(bmr);
     document.getElementById('bmi').textContent=bmi.toFixed(1);
     document.getElementById('bmicat').textContent=cat;
